@@ -34,11 +34,11 @@ uv sync
     Copy-Item .vscode/mcp.local.stdio.json .vscode/mcp.json -Force
     ```
 
-1. MCP 서버를 실행합니다.
+1. VS Code에서 MCP 서버를 실행합니다.
 
 </details>
 
-<details open>
+<details>
 <summary><h4>로컬 Streamable HTTP 서버</h4></summary>
 
 1. MCP 서버를 실행합니다.
@@ -61,7 +61,7 @@ uv sync
     Copy-Item .vscode/mcp.local.http.json .vscode/mcp.json -Force
     ```
 
-1. MCP 서버를 실행합니다.
+1. VS Code에서 MCP 서버를 실행합니다.
 
 </details>
 
@@ -86,11 +86,11 @@ uv sync
     Copy-Item .vscode/mcp.container.stdio.json .vscode/mcp.json -Force
     ```
 
-1. MCP 서버를 실행합니다.
+1. VS Code에서 MCP 서버를 실행합니다.
 
 </details>
 
-<details open>
+<details>
 <summary><h4>컨테이너형 Streamable HTTP 서버</h4></summary>
 
 1. 컨테이너 이미지를 빌드합니다.
@@ -102,7 +102,17 @@ uv sync
 1. MCP 서버를 실행합니다.
 
     ```bash
-    docker run -i --rm -p 8000:8000 --mount "type=bind,src=$HOME,dst=/home/user" mcp-pypandoc-hwpx:latest --http --port 8000
+    # zsh/bash
+    docker run -i --rm -p 8000:8000 \
+        --mount "type=bind,src=$HOME,dst=/home/user" \
+        mcp-pypandoc-hwpx:latest --http --port 8000
+    ```
+
+    ```bash
+    # PowerShell
+    docker run -i --rm -p 8000:8000 `
+        --mount "type=bind,src=$HOME,dst=/home/user" `
+        mcp-pypandoc-hwpx:latest --http --port 8000
     ```
 
    > **NOTE**: 포트 번호는 원하는 값으로 설정할 수 있습니다.
@@ -119,11 +129,11 @@ uv sync
     Copy-Item .vscode/mcp.container.http.json .vscode/mcp.json -Force
     ```
 
-1. MCP 서버를 실행합니다.
+1. VS Code에서 MCP 서버를 실행합니다.
 
 </details>
 
-<details>
+<details open>
 <summary><h4>리모트 Streamable HTTP 서버</h4></summary>
 
 1. Azure에 로그인합니다.
@@ -158,7 +168,7 @@ uv sync
     Copy-Item .vscode/mcp.remote.http.json .vscode/mcp.json -Force
     ```
 
-1. MCP 서버를 실행합니다. 이 때 앞서 구한 리모트 서버의 주소를 입력하세요.
+1. VS Code에서 MCP 서버를 실행합니다. 이 때 앞서 구한 리모트 서버의 주소를 입력하세요.
 
 1. 더이상 사용하지 않으면 리소스를 삭제하세요.
 
