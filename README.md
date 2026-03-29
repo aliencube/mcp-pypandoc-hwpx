@@ -178,34 +178,16 @@ uv sync
 
 </details>
 
-## 제공 도구
-
-| 도구           | 설명                                                  |
-|----------------|-------------------------------------------------------|
-| `docx_to_hwpx` | 워드(`.docx`) 파일을 아래아 한글(`.hwpx`) 파일로 변환 |
-| `html_to_hwpx` | HTML 파일을 아래아 한글(`.hwpx`) 파일로 변환          |
-| `md_to_hwpx`   | 마크다운 파일을 아래아 한글(`.hwpx`) 파일로 변환      |
-
-### 도구 매개변수
-
-세 도구 모두 동일한 매개변수를 사용합니다:
-
-| 매개변수         | 타입   | 필수 여부 | 설명                                                                               |
-|------------------|--------|-----------|------------------------------------------------------------------------------------|
-| `input_path`     | string | 예        | 원본 파일 경로                                                                     |
-| `output_path`    | string | 예        | `.hwpx` 출력 파일이 저장될 경로                                                    |
-| `reference_hwpx` | string | 아니오    | 스타일 참조용 `.hwpx` 파일 경로 (지정하지 않으면 내장된 `blank.hwpx`를 사용합니다) |
-
 ## 알려진 이슈
 
 `pypandoc-hwpx` 라이브러리의 [설명 및 제약사항](https://github.com/msjang/pypandoc-hwpx/blob/main/README.md#%EC%84%A4%EB%AA%85-%EB%B0%8F-%EC%A0%9C%EC%95%BD%EC%82%AC%ED%95%AD) 섹션을 참고하세요.
-
-## 문의
-
-- `pypandoc-hwpx` MCP 서버 관련 문의 👉 [https://github.com/aliencube/mcp-pypandoc-hwpx/issues](https://github.com/aliencube/mcp-pypandoc-hwpx/issues)
-- `pypandoc-hwpx` 라이브러리 관련 문의 👉 [https://github.com/msjang/pypandoc-hwpx/issues](https://github.com/msjang/pypandoc-hwpx/issues)
 
 ## MCP에 대해 더 자세히 알고 싶다면?
 
 - [MCP 공식 문서](https://modelcontextprotocol.io/)
 - [초보자를 위한 MCP](https://github.com/microsoft/mcp-for-beginners/)
+
+## 문의
+
+- `pypandoc-hwpx` MCP 서버 관련 문의 👉 [https://github.com/aliencube/mcp-pypandoc-hwpx/issues](https://github.com/aliencube/mcp-pypandoc-hwpx/issues)
+- `pypandoc-hwpx` 라이브러리 관련 문의 👉 [https://github.com/msjang/pypandoc-hwpx/issues](https://github.com/msjang/pypandoc-hwpx/issues)

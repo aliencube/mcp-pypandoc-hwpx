@@ -98,7 +98,7 @@ module mcpPypandocHwpx 'br/public:avm/res/app/container-app:0.9.0' = {
         mcpPypandocHwpxIdentity.outputs.resourceId
       ]
     }
-    ingressTargetPort: 8080
+    ingressTargetPort: 8000
     scaleMinReplicas: 1
     scaleMaxReplicas: 10
     secrets: {
@@ -127,7 +127,7 @@ module mcpPypandocHwpx 'br/public:avm/res/app/container-app:0.9.0' = {
           }
           {
             name: 'PORT'
-            value: '8080'
+            value: '8000'
           }
         ]
       }
