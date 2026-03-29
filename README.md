@@ -138,6 +138,14 @@ uv sync
     azd up
     ```
 
+   > **NOTE**: Azure 구독, 배포 지역, 환경 이름 등을 물어보면 입력하세요.
+
+1. 배포가 끝나면 리모트 MCP 서버 URL 값을 가져옵니다.
+
+    ```bash
+    azd env get-value AZURE_RESOURCE_MCP_PYPANDOC_HWPX_FQDN
+    ```
+
 1. MCP 서버 설정을 복사합니다.
 
     ```bash
@@ -150,7 +158,13 @@ uv sync
     Copy-Item .vscode/mcp.remote.http.json .vscode/mcp.json -Force
     ```
 
-1. MCP 서버를 실행합니다.
+1. MCP 서버를 실행합니다. 이 때 앞서 구한 리모트 서버의 주소를 입력하세요.
+
+1. 더이상 사용하지 않으면 리소스를 삭제하세요.
+
+    ```bash
+    azd down --purge --force
+    ```
 
 </details>
 
@@ -171,3 +185,17 @@ uv sync
 | `input_path`     | string | 예        | 원본 파일 경로                                                                     |
 | `output_path`    | string | 예        | `.hwpx` 출력 파일이 저장될 경로                                                    |
 | `reference_hwpx` | string | 아니오    | 스타일 참조용 `.hwpx` 파일 경로 (지정하지 않으면 내장된 `blank.hwpx`를 사용합니다) |
+
+## 알려진 이슈
+
+`pypandoc-hwpx` 라이브러리의 [설명 및 제약사항](https://github.com/msjang/pypandoc-hwpx/blob/main/README.md#%EC%84%A4%EB%AA%85-%EB%B0%8F-%EC%A0%9C%EC%95%BD%EC%82%AC%ED%95%AD) 섹션을 참고하세요.
+
+## 문의
+
+- `pypandoc-hwpx` MCP 서버 관련 문의 👉 [https://github.com/aliencube/mcp-pypandoc-hwpx/issues](https://github.com/aliencube/mcp-pypandoc-hwpx/issues)
+- `pypandoc-hwpx` 라이브러리 관련 문의 👉 [https://github.com/msjang/pypandoc-hwpx/issues](https://github.com/msjang/pypandoc-hwpx/issues)
+
+## MCP에 대해 더 자세히 알고 싶다면?
+
+- [MCP 공식 문서](https://modelcontextprotocol.io/)
+- [초보자를 위한 MCP](https://github.com/microsoft/mcp-for-beginners/)

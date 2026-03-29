@@ -1,0 +1,14 @@
+name: mcp-pypandoc-hwpx
+
+metadata:
+  template: mcp-pypandoc-hwpx@1.0.0
+
+services:
+  pypandoc-hwpx:
+    project: .
+    language: python
+    host: containerapp
+    docker:
+      path: ./Dockerfile
+      context: .
+      remoteBuild: true
