@@ -1,0 +1,14 @@
+{
+  "servers": {
+    "pypandoc-hwpx": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--mount", "type=bind,src=${userHome},dst=/home/user",
+        "mcp-pypandoc-hwpx:latest"
+      ]
+    }
+  }
+}

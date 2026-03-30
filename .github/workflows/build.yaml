@@ -1,0 +1,21 @@
+name: Build MCP Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push-image:
+    uses: ./.github/workflows/build-container.yaml
+
+    permissions:
+      contents: write
+      packages: write
+      attestations: write
+      id-token: write
+
+    with:
+      image_name: 'mcp-pypandoc-hwpx'
+      force: true
+    secrets: inherit
