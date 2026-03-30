@@ -13,26 +13,25 @@ var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = uniqueString(subscription().id, resourceGroup().id, location)
 
 // Monitor application with Azure Monitor
-module monitoring 'br/public:avm/ptn/azd/monitoring:0.2.1' = {
+module monitoring 'br/public:avm/ptn/azd/monitoring:0.1.0' = {
   name: 'monitoring'
   params: {
-    location: location
-    tags: tags
     logAnalyticsName: '${abbrs.operationalInsightsWorkspaces}${resourceToken}'
     applicationInsightsName: '${abbrs.insightsComponents}${resourceToken}'
     applicationInsightsDashboardName: '${abbrs.portalDashboards}${resourceToken}'
+    location: location
+    tags: tags
   }
 }
 
 // Container registry
-module containerRegistry 'br/public:avm/res/container-registry/registry:0.12.0' = {
+module containerRegistry 'br/public:avm/res/container-registry/registry:0.1.1' = {
   name: 'registry'
   params: {
     name: '${abbrs.containerRegistryRegistries}${resourceToken}'
     location: location
     tags: tags
     publicNetworkAccess: 'Enabled'
-    exportPolicyStatus: 'enabled'
     roleAssignments: [
       {
         principalId: mcpPypandocHwpxIdentity.outputs.principalId
@@ -45,28 +44,22 @@ module containerRegistry 'br/public:avm/res/container-registry/registry:0.12.0' 
 }
 
 // Container apps environment
-module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.13.1' = {
+module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.4.5' = {
   name: 'container-apps-environment'
   params: {
+    logAnalyticsWorkspaceResourceId: monitoring.outputs.logAnalyticsWorkspaceResourceId
     name: '${abbrs.appManagedEnvironments}${resourceToken}'
     location: location
-    tags: tags
-    appInsightsConnectionString: monitoring.outputs.applicationInsightsConnectionString
-    appLogsConfiguration: {
-      destination: 'log-analytics'
-      logAnalyticsWorkspaceResourceId: monitoring.outputs.logAnalyticsWorkspaceResourceId
-    }
     zoneRedundant: false
   }
 }
 
 // User assigned identity
-module mcpPypandocHwpxIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.5.0' = {
+module mcpPypandocHwpxIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.2.1' = {
   name: 'mcpPypandocHwpxIdentity'
   params: {
     name: '${abbrs.managedIdentityUserAssignedIdentities}mcp-pypandoc-hwpx-${resourceToken}'
     location: location
-    tags: tags
   }
 }
 
@@ -79,25 +72,10 @@ module mcpPypandocHwpxFetchLatestImage './modules/fetch-container-image.bicep' =
   }
 }
 
-module mcpPypandocHwpx 'br/public:avm/res/app/container-app:0.9.0' = {
+module mcpPypandocHwpx 'br/public:avm/res/app/container-app:0.8.0' = {
   name: 'mcpPypandocHwpx'
   params: {
     name: 'pypandoc-hwpx'
-    location: location
-    tags: union(tags, { 'azd-service-name': 'pypandoc-hwpx' })
-    environmentResourceId: containerAppsEnvironment.outputs.resourceId
-    registries: [
-      {
-        server: containerRegistry.outputs.loginServer
-        identity: mcpPypandocHwpxIdentity.outputs.resourceId
-      }
-    ]
-    managedIdentities: {
-      systemAssigned: false
-      userAssignedResourceIds: [
-        mcpPypandocHwpxIdentity.outputs.resourceId
-      ]
-    }
     ingressTargetPort: 8000
     scaleMinReplicas: 1
     scaleMaxReplicas: 10
@@ -115,6 +93,8 @@ module mcpPypandocHwpx 'br/public:avm/res/app/container-app:0.9.0' = {
         }
         args: [
           '--http'
+          '--port'
+          '8000'
         ]
         env: [
           {
@@ -132,6 +112,21 @@ module mcpPypandocHwpx 'br/public:avm/res/app/container-app:0.9.0' = {
         ]
       }
     ]
+    managedIdentities: {
+      systemAssigned: false
+      userAssignedResourceIds: [
+        mcpPypandocHwpxIdentity.outputs.resourceId
+      ]
+    }
+    registries: [
+      {
+        server: containerRegistry.outputs.loginServer
+        identity: mcpPypandocHwpxIdentity.outputs.resourceId
+      }
+    ]
+    environmentResourceId: containerAppsEnvironment.outputs.resourceId
+    location: location
+    tags: union(tags, { 'azd-service-name': 'pypandoc-hwpx' })
   }
 }
 

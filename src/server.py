@@ -133,10 +133,24 @@ def main():
         help="Run the server using Streamable HTTP transport instead of stdio",
     )
     parser.add_argument(
+        "--host",
+        type=str,
+        default="0.0.0.0",
+        help="Host to bind the Streamable HTTP server to (default: 0.0.0.0)",
+    )
+    parser.add_argument(
         "--port",
         type=int,
         default=8000,
         help="Port number for the Streamable HTTP transport (default: 8000)",
+    )
+    parser.add_argument(
+        "--allowed-origin",
+        type=str,
+        action="append",
+        default=None,
+        help="Allowed origin for DNS rebinding protection (can be repeated). "
+             "e.g. https://example.com:*",
     )
     parser.add_argument(
         "--log-level",
@@ -153,8 +167,20 @@ def main():
     )
 
     if args.http:
-        mcp.settings.host = "0.0.0.0"
+        mcp.settings.host = args.host
         mcp.settings.port = args.port
+
+        # Configure DNS rebinding protection for non-localhost deployments
+        if args.host not in ("127.0.0.1", "localhost", "::1"):
+            from mcp.server.transport_security import TransportSecuritySettings
+
+            mcp.settings.transport_security = TransportSecuritySettings(
+                enable_dns_rebinding_protection=False,
+                allowed_origins=args.allowed_origin or [],
+            )
+            logger.info(
+                "DNS rebinding protection disabled for host=%s", args.host,
+            )
 
     transport = "streamable-http" if args.http else "stdio"
     logger.info("Starting server (transport=%s)", transport)
