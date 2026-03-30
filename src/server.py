@@ -114,8 +114,13 @@ def _convert_from_url(
         in_path = os.path.join(tmp, f"input{input_suffix}")
         _download_to_temp(url, in_path)
 
-        # Determine output location
-        blob_name = _make_blob_name(source_name)
+        # Determine blob / output name
+        if output_path:
+            blob_name = os.path.basename(output_path)
+        else:
+            blob_name = _make_blob_name(source_name)
+        if not blob_name.endswith(".hwpx"):
+            blob_name = os.path.splitext(blob_name)[0] + ".hwpx"
         out_path = os.path.join(tmp, blob_name)
 
         # Convert
