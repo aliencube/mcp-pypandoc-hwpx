@@ -6,7 +6,7 @@
         "run",
         "--directory",
         "${workspaceFolder}",
-        "src/server.py"
+        "python", "-m", "src.server"
       ]
     }
   }

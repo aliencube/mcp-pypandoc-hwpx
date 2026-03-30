@@ -63,6 +63,43 @@ module mcpPypandocHwpxIdentity 'br/public:avm/res/managed-identity/user-assigned
   }
 }
 
+// ---------------------------------------------------------------------------
+// Azure Storage Account for converted .hwpx files
+// ---------------------------------------------------------------------------
+var storageAccountName = '${abbrs.storageStorageAccounts}${resourceToken}'
+var blobContainerName = 'hwpx'
+
+module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = {
+  name: 'storageAccount'
+  params: {
+    name: storageAccountName
+    location: location
+    tags: tags
+    kind: 'StorageV2'
+    skuName: 'Standard_LRS'
+    allowBlobPublicAccess: false
+    networkAcls: {
+      defaultAction: 'Allow'
+    }
+    blobServices: {
+      containers: [
+        {
+          name: blobContainerName
+          publicAccess: 'None'
+        }
+      ]
+    }
+    roleAssignments: [
+      {
+        principalId: mcpPypandocHwpxIdentity.outputs.principalId
+        principalType: 'ServicePrincipal'
+        // Storage Blob Data Contributor
+        roleDefinitionIdOrName: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')
+      }
+    ]
+  }
+}
+
 // Azure Container Apps
 module mcpPypandocHwpxFetchLatestImage './modules/fetch-container-image.bicep' = {
   name: 'mcpPypandocHwpx-fetch-image'
@@ -106,6 +143,14 @@ module mcpPypandocHwpx 'br/public:avm/res/app/container-app:0.8.0' = {
             value: mcpPypandocHwpxIdentity.outputs.clientId
           }
           {
+            name: 'AZURE_STORAGE_ACCOUNT_URL'
+            value: storageAccount.outputs.primaryBlobEndpoint
+          }
+          {
+            name: 'AZURE_STORAGE_CONTAINER_NAME'
+            value: blobContainerName
+          }
+          {
             name: 'PORT'
             value: '8000'
           }
@@ -134,3 +179,5 @@ output AZURE_CONTAINER_REGISTRY_ENDPOINT string = containerRegistry.outputs.logi
 output AZURE_RESOURCE_MCP_PYPANDOC_HWPX_ID string = mcpPypandocHwpx.outputs.resourceId
 output AZURE_RESOURCE_MCP_PYPANDOC_HWPX_NAME string = mcpPypandocHwpx.outputs.name
 output AZURE_RESOURCE_MCP_PYPANDOC_HWPX_FQDN string = mcpPypandocHwpx.outputs.fqdn
+output AZURE_STORAGE_ACCOUNT_URL string = storageAccount.outputs.primaryBlobEndpoint
+output AZURE_STORAGE_CONTAINER_NAME string = blobContainerName

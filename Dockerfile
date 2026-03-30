@@ -23,4 +23,4 @@ RUN uv sync --frozen --no-dev
 COPY src/ src/
 
 # Default: stdio transport; pass --http [--port PORT] for Streamable HTTP
-ENTRYPOINT ["uv", "run", "/app/src/server.py"]
+ENTRYPOINT ["uv", "run", "python", "-m", "src.server"]
