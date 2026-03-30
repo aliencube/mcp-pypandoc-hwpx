@@ -2,6 +2,8 @@
 
 [`pypandoc-hwpx`](https://pypi.org/project/pypandoc-hwpx) 패키지를 활용하여 `.docx`, `.html`, `.md` 문서를 `.hwpx` 문서로 변환하는 도구를 제공하는 [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) 서버입니다.
 
+﻿<video src="https://github.com/user-attachments/assets/ed60811a-49a9-4c8b-8e4e-447e04051927" controls width="600"></video>
+
 ## 요구 사항
 
 - Python 3.12+
