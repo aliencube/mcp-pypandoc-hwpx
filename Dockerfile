@@ -3,6 +3,11 @@
 
 FROM python:3.12-slim
 
+LABEL org.opencontainers.image.source="https://github.com/aliencube/mcp-pypandoc-hwpx" \
+      org.opencontainers.image.title="mcp-pypandoc-hwpx" \
+      org.opencontainers.image.description="MCP server for converting .docx, .html, and .md files to .hwpx format using pypandoc-hwpx" \
+      org.opencontainers.image.licenses="MIT"
+
 # Install pandoc and clean up apt cache in a single layer
 RUN apt-get update \
     && apt-get install -y --no-install-recommends pandoc \

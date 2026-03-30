@@ -68,12 +68,6 @@ uv sync
 <details>
 <summary><h4>컨테이너형 <code>stdio</code> 서버</h4></summary>
 
-1. 컨테이너 이미지를 빌드합니다.
-
-    ```bash
-    docker build -f Dockerfile -t mcp-pypandoc-hwpx:latest .
-    ```
-
 1. MCP 서버 설정을 복사합니다.
 
     ```bash
@@ -93,26 +87,20 @@ uv sync
 <details>
 <summary><h4>컨테이너형 Streamable HTTP 서버</h4></summary>
 
-1. 컨테이너 이미지를 빌드합니다.
-
-    ```bash
-    docker build -f Dockerfile -t mcp-pypandoc-hwpx:latest .
-    ```
-
 1. MCP 서버를 실행합니다.
 
     ```bash
     # zsh/bash
     docker run -i --rm -p 8000:8000 \
         --mount "type=bind,src=$HOME,dst=/home/user" \
-        mcp-pypandoc-hwpx:latest --http --port 8000
+        ghcr.io/aliencube/mcp-pypandoc-hwpx:latest --http --port 8000
     ```
 
     ```bash
     # PowerShell
     docker run -i --rm -p 8000:8000 `
         --mount "type=bind,src=$HOME,dst=/home/user" `
-        mcp-pypandoc-hwpx:latest --http --port 8000
+        ghcr.io/aliencube/mcp-pypandoc-hwpx:latest --http --port 8000
     ```
 
    > **NOTE**: 포트 번호는 원하는 값으로 설정할 수 있습니다.
