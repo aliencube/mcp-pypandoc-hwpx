@@ -1,7 +1,7 @@
 {
   "name": "mcp-pypandoc-hwpx",
 
-  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
 
   "features": {
     "ghcr.io/azure/azure-dev/azd:latest": {},
